@@ -11,6 +11,7 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.ClientTickEvent;
 import net.optifine.shaders.IShaderPack;
+import net.optifine.shaders.ShaderPackDefault;
 import net.optifine.shaders.ShaderPackNone;
 import net.optifine.shaders.Shaders;
 
@@ -66,7 +67,7 @@ public class Unifine {
 	
 	public boolean isShaderOn() {
 		IShaderPack pack = Shaders.getShaderPack();
-		return !(pack instanceof ShaderPackNone);
+		return !(pack instanceof ShaderPackNone || pack instanceof ShaderPackDefault);
 	}
 	
 	public void shaderChanged() {
