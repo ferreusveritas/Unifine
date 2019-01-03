@@ -16,14 +16,10 @@ public class ModConstants {
 	public static final String GREATERTHAN = "@(";
 	public static final String ORGREATER = ",)";
 	
-	//Other mods can use this string to depend on the latest version of Dynamic Trees
-	public static final String UNIFINE_LATEST = MODID + AT + VERSION + ORGREATER;
-	
 	//Forge
-	private static final String FORGE = "forge";
-	public static final String FORGE_VER = FORGE + AT + "14.23.5.2768" + ORGREATER;
+	//private static final String FORGE = "forge";
+	//public static final String FORGE_VER = FORGE + AT + "14.23.5.2768" + ORGREATER;
 	
-	public static final String DEPENDENCIES
-		= REQAFTER + FORGE_VER;
+	public static final String DEPENDENCIES = "";
 	
 }
