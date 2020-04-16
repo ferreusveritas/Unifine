@@ -8,14 +8,34 @@ buildscript {
 	}
 }
 
+repositories {
+    maven {
+        name 'LDTTeam - Modding'
+        url 'https://ldtteam.jfrog.io/ldtteam/modding/'
+    }
+}
+
+apply plugin: 'idea'
 apply plugin: 'net.minecraftforge.gradle.forge'
+apply plugin: 'maven'
+
+ext.configFile = file "build.properties"
+configFile.withReader {
+    def prop = new Properties()
+    prop.load(it)
+    ext.config = new ConfigSlurper().parse prop
+}
 
 //Only edit below this line, the above code adds and enables the necessary things for Forge to be setup.
 
+version = "${config.mc_version}-${config.mod_version}"
+if (System.getenv()["Version"] != null)
+{
+    version = "${config.mc_version}-${System.getenv()["Version"]}"
+}
 
-version = "${mc_version}-${mod_version}"
-group = package_group
-archivesBaseName = mod_name
+group = config.package_group
+archivesBaseName = config.mod_name
 
 sourceCompatibility = targetCompatibility = '1.8' // Need this here so eclipse task generates correctly.
 compileJava {
@@ -23,16 +43,16 @@ compileJava {
 }
 
 minecraft {
-	version = "${mc_version}-${forge_version}"
+	version = "${config.mc_version}-${config.forge_version}"
 	runDir = "run"
 	
-	//replace "@VERSION@", project.version
-	//replaceIn "ModConstants.java"
+	replace "1.12.2-9999.9999.9999z", project.version
+	replaceIn "ModConstants.java"
 	
-	//makeObfSourceJar = false
+	makeObfSourceJar = false
 	
-	if (project.hasProperty('mappings_version'))
-		mappings = project.mappings_version
+	if (config.mappings_version)
+		mappings = config.mappings_version
 }
 
 dependencies {
@@ -54,24 +74,25 @@ processResources {
 	}
 }
 
-def commonManifest = {
-}
-
-jar {
-        classifier = 'universal'
-        manifest commonManifest
-}
-
 task deobfJar(type: Jar) {
-        from sourceSets.main.output
-        classifier = 'deobf'
-        manifest commonManifest
+    from sourceSets.main.output
+    classifier = 'deobf'
 }
 
-task srcJar(type: Jar) {
-        from sourceSets.main.allSource
-        classifier = 'sources'
-        manifest commonManifest
+tasks.build.dependsOn deobfJar
+
+idea {
+    module {
+        inheritOutputDirs = true
+    }
+    module.downloadJavadoc = true
+    module.downloadSources = true
+}
+
+artifacts {
+    archives jar
+    archives sourceJar
+    archives deobfJar
 }
 
 tasks.build.dependsOn deobfJar
