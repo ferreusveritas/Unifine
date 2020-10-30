@@ -49,4 +49,10 @@ public class OptifineHandlerActive extends OptifineHandlerBase {
 		return net.optifine.shaders.Shaders.currentShaderName;
 	}
 	
+	@Override
+	public void updateCustomColors() {
+		net.optifine.CustomColors.update();
+		System.out.println("Update Custom Colors");
+	}
+	
 }

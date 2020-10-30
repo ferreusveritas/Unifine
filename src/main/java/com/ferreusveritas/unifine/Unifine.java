@@ -4,6 +4,7 @@ import java.util.Optional;
 import java.util.function.Function;
 
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInterModComms.IMCEvent;
@@ -129,6 +130,14 @@ public class Unifine {
 				}
 			}
 		}
+		
+		@SubscribeEvent
+		public void onWorldLoad(WorldEvent.Load event) {
+			if(event.getWorld().isRemote) {
+				optifineHandler.updateCustomColors();
+			}
+		}
+		
 	}
 
 }

@@ -14,4 +14,8 @@ public class OptifineHandlerBase {
 		return "";
 	}
 	
+	public void updateCustomColors() {
+		
+	}
+	
 }
