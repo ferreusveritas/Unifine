@@ -4,6 +4,7 @@ import java.util.Optional;
 import java.util.function.Function;
 
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.common.config.Config;
 import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.SidedProxy;
@@ -133,11 +134,20 @@ public class Unifine {
 		
 		@SubscribeEvent
 		public void onWorldLoad(WorldEvent.Load event) {
-			if(event.getWorld().isRemote) {
+			if(event.getWorld().isRemote && UnifineConfig.reloadCustomColors) {
 				optifineHandler.updateCustomColors();
 			}
 		}
 		
 	}
 
+	@Config(modid="longerdays")
+	public static class UnifineConfig{
+		
+		@Config.Name("Reload Custom Colors")
+		@Config.Comment("If enabled the Optifine custom color settings will be reloaded each time the client joins a world")
+		public static boolean reloadCustomColors = true;
+		
+	}
+	
 }
